@@ -3,7 +3,7 @@
     public static class HandsEvaluator
     {
         private enum _suit { Diamonds, Hearts, Spades, Clubs }
-        private enum _handType { HighCard, Pair, TwoPair, ThreeOfKind, Straight, Flush, FullHouse, FourOfKind, StraightFlush, RoyalFlush }
+        public enum HandType { HighCard, Pair, TwoPair, ThreeOfKind, Straight, Flush, FullHouse, FourOfKind, StraightFlush, RoyalFlush }
 
         private static CardComparer _comparer = new CardComparer();
 
@@ -44,14 +44,26 @@
             }
         }
 
-        private static _handType GetHandType(ISet<string> cards)
+        private static HandType GetHandType(ISet<string> cards)
         {
             if (cards == null) throw new ArgumentNullException("cards cant be null");
 
             List<string> sortedCards = new List<string>(cards);
             sortedCards.Sort(_comparer);
 
-            throw new NotImplementedException();
+            List<int> matches = (List<int>)LengthOfAllMatches(sortedCards);
+            bool isFlush = IsFlush(sortedCards);
+            bool isStraight = IsStraight(sortedCards);
+
+            // TODO: implement Royal Flush
+            if (isFlush && isStraight) return HandType.StraightFlush;
+            if (matches.Contains(4)) return HandType.FourOfKind;
+            if (matches.Contains(3) && matches.Contains(2)) return HandType.FullHouse;
+            if (isFlush) return HandType.Flush;
+            if (isStraight) return HandType.Straight;
+            if (matches.Contains(3)) return HandType.ThreeOfKind;
+            if (matches.Remove(2) && matches.Contains(2)) return HandType.TwoPair;
+            return HandType.HighCard;
         }
 
         private static IList<int> LengthOfAllMatches(IList<string> cards)
