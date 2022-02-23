@@ -1,6 +1,6 @@
 ﻿namespace HandsEvaluator
 {
-    public static class HandsEvaluator
+    public static class HandEvaluator
     {
         private enum _suit { Diamonds, Hearts, Spades, Clubs }
         public enum HandType { HighCard, Pair, TwoPair, ThreeOfKind, Straight, Flush, FullHouse, FourOfKind, StraightFlush, RoyalFlush }
