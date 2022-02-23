@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Tests
 {
+    // TODO: revamp and redo most of the tests to add more test and edge cases
     [TestClass]
     public class TestHandEvaluator
     {
